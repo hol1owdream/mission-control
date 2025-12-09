@@ -7,9 +7,9 @@ function zaplanujMisje(nazwaMisji, typMisji) {
     // Возвращаем объект миссии с базовой структурой
     return {
         nazwa: nazwaMisji,       // Название миссии
-        typ: typMisji,           // Тип миссии: "Badawcza", "Transportowa", "Kolonizacyjna"
+        typ: typMisji,           // Тип миссии
         zaloga: [],              // Список членов экипажа
-        dystans: 0,              // Пройденное расстояние (AU)
+        dystans: 0,              // Пройденное расстояние в AU
         celeBadawcze: [],        // Цели исследования
         ladownia: {
             narzedzia: [],       // Список оборудования
@@ -20,70 +20,70 @@ function zaplanujMisje(nazwaMisji, typMisji) {
 
 // Функция добавления члена экипажа
 function dodajCzlonkaZalogi(misja, czlonek) {
-    misja.zaloga.push(czlonek); // Добавляем члена в массив заłоги
+    misja.zaloga.push(czlonek); // Добавляем нового члена в экипаж
 }
 
-// Функция добавления оборудования в ładownię
+// Функция загрузки оборудования
 function zaladujSprzet(misja, sprzet) {
-    misja.ladownia.narzedzia.push(sprzet); // Добавляем оборудование в массив
+    misja.ladownia.narzedzia.push(sprzet); // Добавляем оборудование в грузовой отсек
 }
 
-// Функция перемещения миссии на определённое расстояние
+// Функция обновления пройденного расстояния
 function przemierzDystans(misja, odleglosc) {
-    misja.dystans += odleglosc;           // Увеличиваем пройденный путь
-    misja.ladownia.zapasy += odleglosc * 10; // Пример: увеличение запасов на 10% за AU
+    misja.dystans += odleglosc;           // Увеличиваем общий путь
+    misja.ladownia.zapasy += odleglosc * 10; // Изменяем запасы (примерная логика)
 }
 
-// Функция генерации отчета о миссии
+// Функция генерации отчёта
 function raportMisji(misja) {
-    // Формируем текст отчета
-    let report = `*** RAPORT MISJI: ${misja.nazwa} ***\n`;
-    report += `Тип миссии: ${misja.typ}\n`;
-    report += `Пройденное расстояние: ${misja.dystans} AU\n`;
-    report += `Запасы: ${misja.ladownia.zapasy}%\n\n`;
+    // Формируем текстовый отчёт
+    let raport = `*** RAPORT MISJI: ${misja.nazwa} ***\n`;
+    raport += `Typ misji: ${misja.typ}\n`;
+    raport += `Przebyty dystans: ${misja.dystans} AU\n`;
+    raport += `Pozostałe zapasy: ${misja.ladownia.zapasy}%\n\n`;
 
-    // Отображаем состав экипажа
-    report += "--- ЭКИПАЖ ---\n";
-    if(misja.zaloga.length === 0) {
-        report += "- Экипаж отсутствует\n";
+    // Секция экипажа
+    raport += "--- ZAŁOGA ---\n";
+    if (misja.zaloga.length === 0) {
+        raport += "- Brak członków załogi\n"; // Нет экипажа
     } else {
-        misja.zaloga.forEach(czlonek => report += `- ${czlonek}\n`);
+        misja.zaloga.forEach(osoba => raport += `- ${osoba}\n`);
     }
 
-    // Отображаем оборудование в ładowni
-    report += "\n--- ОБОРУДОВАНИЕ В ładowni ---\n";
-    if(misja.ladownia.narzedzia.length === 0) {
-        report += "- Оборудование отсутствует\n";
+    // Секция оборудования
+    raport += "\n--- SPRZĘT W ŁADOWNI ---\n";
+    if (misja.ladownia.narzedzia.length === 0) {
+        raport += "- Brak sprzętu\n"; // Нет оборудования
     } else {
-        misja.ladownia.narzedzia.forEach(sprzet => report += `- ${sprzet}\n`);
+        misja.ladownia.narzedzia.forEach(sprzet => raport += `- ${sprzet}\n`);
     }
 
-    return report; // Возвращаем готовый отчет
+    return raport; // Возвращаем полностью сформированный отчёт
 }
 
 // ==========================================
-//          ПРИМЕР ИСПОЛЬЗОВАНИЯ
+//             ПРИМЕР ИСПОЛЬЗОВАНИЯ
 // ==========================================
 
-// 1. Создаём миссию
-const misjaAlfa = zaplanujMisje("Экспедиция на Марс", "Badawcza");
+// Создаём новую миссию
+const misjaAlfa = zaplanujMisje("Ekspedycja na Marsa", "Badawcza");
 
-// 2. Добавляем членов экипажа
-dodajCzlonkaZalogi(misjaAlfa, "Инженер");
-dodajCzlonkaZalogi(misjaAlfa, "Медик");
-dodajCzlonkaZalogi(misjaAlfa, "Биолог");
-dodajCzlonkaZalogi(misjaAlfa, "Пилот");
-dodajCzlonkaZalogi(misjaAlfa, "Архитектор");
-dodajCzlonkaZalogi(misjaAlfa, "Специалист по коммуникациям");
+// Добавляем членов экипажа
+dodajCzlonkaZalogi(misjaAlfa, "Inżynier");
+dodajCzlonkaZalogi(misjaAlfa, "Medyk");
+dodajCzlonkaZalogi(misjaAlfa, "Biolog");
+dodajCzlonkaZalogi(misjaAlfa, "Pilot");
+dodajCzlonkaZalogi(misjaAlfa, "Architekt");
+dodajCzlonkaZalogi(misjaAlfa, "Specjalista ds. komunikacji");
 
-// 3. Загружаем оборудование
-zaladujSprzet(misjaAlfa, "Жилой модуль");
-zaladujSprzet(misjaAlfa, "Генератор кислорода");
-zaladujSprzet(misjaAlfa, "3D-принтер");
+// Загружаем оборудование
+zaladujSprzet(misjaAlfa, "Moduł mieszkalny");
+zaladujSprzet(misjaAlfa, "Generator tlenu");
+zaladujSprzet(misjaAlfa, "Drukarka 3D");
 
-// 4. Перемещаем миссию
+// Продвигаем миссию вперёд
 przemierzDystans(misjaAlfa, 10);
 przemierzDystans(misjaAlfa, 5);
 
-// 5. Выводим отчёт о миссии
+// Выводим финальный отчёт
 console.log(raportMisji(misjaAlfa));
